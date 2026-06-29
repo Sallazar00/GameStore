@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
 use App\Exceptions\CacaPayException;
 use App\Models\Categoria;
 use App\Models\Cliente;
@@ -22,6 +23,19 @@ class StoreController extends Controller
     }
 
     private function clienteLogado(): bool
+=======
+use App\Models\Categoria;
+use App\Models\Cidade;
+use App\Models\Endereco;
+use App\Models\Produto;
+use App\Models\Venda;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class StoreController extends Controller
+{
+    private function clienteLogado()
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
     {
         return session('cliente_tipo') === 'cliente';
     }
@@ -33,10 +47,15 @@ class StoreController extends Controller
 
         $produtos = Produto::with(['categoria', 'plataforma', 'fotos'])
             ->when($busca, function ($query) use ($busca) {
+<<<<<<< HEAD
                 $query->where(function ($searchQuery) use ($busca) {
                     $searchQuery->where('nome', 'like', "%{$busca}%")
                         ->orWhere('descricao', 'like', "%{$busca}%");
                 });
+=======
+                $query->where('nome', 'like', "%{$busca}%")
+                    ->orWhere('descricao', 'like', "%{$busca}%");
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
             })
             ->when($categoriaId, function ($query) use ($categoriaId) {
                 $query->where('categoria_id', $categoriaId);
@@ -51,10 +70,14 @@ class StoreController extends Controller
 
     public function produto($slug)
     {
+<<<<<<< HEAD
         $produto = Produto::with(['categoria', 'plataforma', 'fotos'])
             ->where('slug', $slug)
             ->firstOrFail();
 
+=======
+        $produto = Produto::with(['categoria', 'plataforma', 'fotos'])->where('slug', $slug)->firstOrFail();
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
         return view('store.produto', compact('produto'));
     }
 
@@ -62,7 +85,10 @@ class StoreController extends Controller
     {
         $itens = $this->itensCarrinho();
         $total = collect($itens)->sum('subtotal');
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
         return view('carrinho', compact('itens', 'total'));
     }
 
@@ -75,9 +101,18 @@ class StoreController extends Controller
         }
 
         $carrinho = session('carrinho', []);
+<<<<<<< HEAD
         $novaQtd = isset($carrinho[$produto->id])
             ? $carrinho[$produto->id]['quantidade'] + $quantidade
             : $quantidade;
+=======
+
+        if (isset($carrinho[$produto->id])) {
+            $novaQtd = $carrinho[$produto->id]['quantidade'] + $quantidade;
+        } else {
+            $novaQtd = $quantidade;
+        }
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
 
         if ($novaQtd > $produto->quantidade_estoque) {
             return back()->with('erro', 'Não há estoque suficiente para essa quantidade.');
@@ -104,8 +139,12 @@ class StoreController extends Controller
 
     public function limparCarrinho()
     {
+<<<<<<< HEAD
         session()->forget(['carrinho', 'checkout_token']);
 
+=======
+        session()->forget('carrinho');
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
         return back()->with('sucesso', 'Carrinho limpo.');
     }
 
@@ -116,11 +155,15 @@ class StoreController extends Controller
         }
 
         $itens = $this->itensCarrinho();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
         if (count($itens) === 0) {
             return redirect('/carrinho')->with('erro', 'Seu carrinho está vazio.');
         }
 
+<<<<<<< HEAD
         $cliente = Cliente::findOrFail(session('cliente_id'));
         $total = collect($itens)->sum('subtotal');
         $checkoutToken = (string) Str::uuid();
@@ -128,6 +171,15 @@ class StoreController extends Controller
         session(['checkout_token' => $checkoutToken]);
 
         return view('store.checkout', compact('itens', 'total', 'cliente', 'checkoutToken'));
+=======
+        $enderecos = Endereco::with('cidade')
+            ->where('cliente_id', session('cliente_id'))
+            ->get();
+
+        $total = collect($itens)->sum('subtotal');
+
+        return view('store.checkout', compact('itens', 'total', 'enderecos'));
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
     }
 
     public function finalizarCompra(Request $request)
@@ -137,6 +189,7 @@ class StoreController extends Controller
         }
 
         $request->validate([
+<<<<<<< HEAD
             'checkout_token' => ['required', 'string'],
         ]);
 
@@ -149,6 +202,15 @@ class StoreController extends Controller
         }
 
         $cliente = Cliente::findOrFail(session('cliente_id'));
+=======
+            'endereco_id' => 'required|exists:enderecos,id',
+        ]);
+
+        $endereco = Endereco::where('id', $request->endereco_id)
+            ->where('cliente_id', session('cliente_id'))
+            ->firstOrFail();
+
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
         $itens = $this->itensCarrinho();
 
         if (count($itens) === 0) {
@@ -157,6 +219,7 @@ class StoreController extends Controller
 
         foreach ($itens as $item) {
             if ($item['produto']->quantidade_estoque < $item['quantidade']) {
+<<<<<<< HEAD
                 return redirect('/carrinho')
                     ->with('erro', 'O produto "' . $item['produto']->nome . '" não possui estoque suficiente.');
             }
@@ -259,6 +322,36 @@ class StoreController extends Controller
             'sucesso',
             'Pagamento aprovado pelo CaçaPay! Os jogos já estão disponíveis na sua biblioteca. Pedido ' . $venda->codigo_pedido . '.'
         );
+=======
+                return redirect('/carrinho')->with('erro', 'O produto "' . $item['produto']->nome . '" não possui estoque suficiente.');
+            }
+        }
+
+        DB::transaction(function () use ($itens, $endereco) {
+            $total = collect($itens)->sum('subtotal');
+
+            $venda = Venda::create([
+                'cliente_id' => session('cliente_id'),
+                'endereco_id' => $endereco->id,
+                'valor_total' => $total,
+            ]);
+
+            foreach ($itens as $item) {
+                $produto = $item['produto'];
+
+                $venda->produtos()->attach($produto->id, [
+                    'quantidade' => $item['quantidade'],
+                    'subtotal' => $item['subtotal'],
+                ]);
+
+                $produto->decrement('quantidade_estoque', $item['quantidade']);
+            }
+        });
+
+        session()->forget('carrinho');
+
+        return redirect('/biblioteca')->with('sucesso', 'Compra finalizada! Os jogos aparecerão na sua biblioteca.');
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
     }
 
     public function biblioteca()
@@ -267,9 +360,14 @@ class StoreController extends Controller
             return redirect('/login')->with('erro', 'Faça login como cliente para acessar sua biblioteca.');
         }
 
+<<<<<<< HEAD
         $vendas = Venda::with('produtos.fotos')
             ->where('cliente_id', session('cliente_id'))
             ->whereIn('status', ['pagamento_aprovado', 'pago', 'revisao_manual'])
+=======
+        $vendas = Venda::with(['produtos.fotos', 'endereco.cidade'])
+            ->where('cliente_id', session('cliente_id'))
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
             ->latest()
             ->get();
 
@@ -285,10 +383,14 @@ class StoreController extends Controller
             return [];
         }
 
+<<<<<<< HEAD
         $produtos = Produto::with('fotos')
             ->whereIn('id', $ids)
             ->get()
             ->keyBy('id');
+=======
+        $produtos = Produto::with('fotos')->whereIn('id', $ids)->get()->keyBy('id');
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
 
         $itens = [];
 

@@ -8,6 +8,7 @@ class Venda extends Model
 {
     protected $table = 'vendas';
 
+<<<<<<< HEAD
     protected $fillable = [
         'codigo_pedido',
         'cliente_id',
@@ -28,12 +29,23 @@ class Venda extends Model
             'pago_em' => 'datetime',
         ];
     }
+=======
+    protected $fillable = ['cliente_id', 'endereco_id', 'valor_total'];
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
 
     public function cliente()
     {
         return $this->belongsTo(Cliente::class);
     }
 
+<<<<<<< HEAD
+=======
+    public function endereco()
+    {
+        return $this->belongsTo(Endereco::class);
+    }
+
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
     public function produtos()
     {
         return $this->belongsToMany(Produto::class, 'produto_venda')

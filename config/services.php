@@ -35,6 +35,7 @@ return [
         ],
     ],
 
+<<<<<<< HEAD
 
     'cacapay' => [
         'endpoint' => env('CACAPAY_ENDPOINT', 'http://127.0.0.1:8001/api/compras'),
@@ -43,4 +44,6 @@ return [
         'timeout' => (int) env('CACAPAY_TIMEOUT', 15),
     ],
 
+=======
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
 ];

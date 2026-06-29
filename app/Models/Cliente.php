@@ -21,6 +21,14 @@ class Cliente extends Model
 
     protected $hidden = ['senha'];
 
+<<<<<<< HEAD
+=======
+    public function enderecos()
+    {
+        return $this->hasMany(Endereco::class);
+    }
+
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
     public function vendas()
     {
         return $this->hasMany(Venda::class);

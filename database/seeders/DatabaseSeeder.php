@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Categoria;
+<<<<<<< HEAD
+=======
+use App\Models\Cidade;
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
 use App\Models\FotoProduto;
 use App\Models\Plataforma;
 use App\Models\Produto;
@@ -23,6 +27,13 @@ class DatabaseSeeder extends Seeder
         Plataforma::firstOrCreate(['nome' => 'Xbox']);
         Plataforma::firstOrCreate(['nome' => 'Nintendo Switch']);
 
+<<<<<<< HEAD
+=======
+        Cidade::firstOrCreate(['nome' => 'Caçador', 'estado' => 'SC']);
+        Cidade::firstOrCreate(['nome' => 'Florianópolis', 'estado' => 'SC']);
+        Cidade::firstOrCreate(['nome' => 'Curitiba', 'estado' => 'PR']);
+
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
         $produtos = [
             [
                 'nome' => 'Cyber Adventure',

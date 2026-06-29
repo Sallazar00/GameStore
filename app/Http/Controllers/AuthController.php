@@ -75,7 +75,11 @@ class AuthController extends Controller
 
     public function sair()
     {
+<<<<<<< HEAD
         session()->forget(['cliente_id', 'cliente_nome', 'cliente_email', 'cliente_tipo', 'carrinho', 'checkout_token']);
+=======
+        session()->forget(['cliente_id', 'cliente_nome', 'cliente_email', 'cliente_tipo', 'carrinho']);
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
         return redirect('/')->with('sucesso', 'Você saiu da sua conta.');
     }
 }

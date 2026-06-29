@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+<<<<<<< HEAD
+=======
+use App\Models\Cidade;
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
 use App\Models\FotoProduto;
 use App\Models\Plataforma;
 use App\Models\Produto;
@@ -26,6 +30,10 @@ class AdminController extends Controller
         return view('admin.dashboard', [
             'produtos' => Produto::count(),
             'categorias' => Categoria::count(),
+<<<<<<< HEAD
+=======
+            'cidades' => Cidade::count(),
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
             'plataformas' => Plataforma::count(),
         ]);
     }
@@ -101,6 +109,47 @@ class AdminController extends Controller
         return back()->with('sucesso', 'Plataforma excluída.');
     }
 
+<<<<<<< HEAD
+=======
+    public function cidades()
+    {
+        $this->somenteAdmin();
+
+        return view('admin.cidades', [
+            'cidades' => Cidade::orderBy('estado')->orderBy('nome')->get(),
+        ]);
+    }
+
+    public function salvarCidade(Request $request)
+    {
+        $this->somenteAdmin();
+
+        $dados = $request->validate([
+            'nome' => 'required|string|max:255',
+            'estado' => 'required|string|max:2',
+        ]);
+
+        $dados['estado'] = strtoupper($dados['estado']);
+
+        Cidade::create($dados);
+
+        return back()->with('sucesso', 'Cidade cadastrada.');
+    }
+
+    public function excluirCidade(Cidade $cidade)
+    {
+        $this->somenteAdmin();
+
+        if ($cidade->enderecos()->exists()) {
+            return back()->with('erro', 'Não é possível excluir uma cidade em uso.');
+        }
+
+        $cidade->delete();
+
+        return back()->with('sucesso', 'Cidade excluída.');
+    }
+
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
     public function produtos()
     {
         $this->somenteAdmin();

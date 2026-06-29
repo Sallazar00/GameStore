@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('vendas', function (Blueprint $table) {
             $table->id();
+<<<<<<< HEAD
             $table->string('codigo_pedido')->nullable()->unique();
             $table->foreignId('cliente_id')->constrained('clientes')->restrictOnDelete();
             $table->decimal('valor_total', 10, 2);
@@ -19,6 +20,11 @@ return new class extends Migration
             $table->json('cacapay_resposta')->nullable();
             $table->timestamp('pago_em')->nullable();
             $table->text('integracao_erro')->nullable();
+=======
+            $table->foreignId('cliente_id')->constrained('clientes')->restrictOnDelete();
+            $table->foreignId('endereco_id')->constrained('enderecos')->restrictOnDelete();
+            $table->decimal('valor_total', 10, 2);
+>>>>>>> 1c0ba63effb3e71488a10871a5a571b652687b0a
             $table->timestamps();
         });
 
