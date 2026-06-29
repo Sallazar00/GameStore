@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Imagem de jogo indisponível</title>
+  <desc id="desc">Capa padrão da GameStore</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#171f34"/>
+      <stop offset=".55" stop-color="#29185a"/>
+      <stop offset="1" stop-color="#0b1322"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="70%" cy="20%" r="65%">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity=".6"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+  <g opacity=".08" stroke="#fff">
+    <path d="M0 100h800M0 200h800M0 300h800M0 400h800M0 500h800M0 600h800M0 700h800M0 800h800M0 900h800"/>
+    <path d="M100 0v1000M200 0v1000M300 0v1000M400 0v1000M500 0v1000M600 0v1000M700 0v1000"/>
+  </g>
+  <g transform="translate(250 350)" fill="none" stroke="#c4b5fd" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M78 75h144c54 0 88 38 103 91l28 99c11 39-27 69-58 44l-66-52H71L5 309c-31 25-69-5-58-44l28-99c15-53 49-91 103-91Z"/>
+    <path d="M75 151h60M105 121v60M233 139h1M273 177h1"/>
+  </g>
+  <text x="400" y="760" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="50" font-weight="700">GAMESTORE</text>
+  <text x="400" y="815" text-anchor="middle" fill="#9aa7bb" font-family="Arial, sans-serif" font-size="24">Imagem indisponível</text>
+</svg>
