@@ -16,4 +16,4 @@ class DashboardController extends Controller
             'meses' => json_encode($meses)
         ]);
     }
-}
+} 
